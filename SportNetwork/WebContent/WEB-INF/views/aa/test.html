@@ -1,0 +1,56 @@
+
+<html>
+<head>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js">
+</script>
+<script>
+$(document).ready(function(){
+  $("#find").click(function(){
+   
+   
+   var $myloc=$("#myLoc");
+   var $dist=$("#dist");
+   
+   $.ajax({
+    url : "http://10.252.3.60:8080/SportNetwork/map/findNearestVenues?ll="+$myloc.val()+"&dist="+$dist.val(),
+    type: "POST",
+    success: function( response, jqXHR)
+    {
+        //data - response from server
+		var $str="";
+		for(i=0;i<response.length;i++){
+			//alert(response[i].point.x);
+			$str+="&markers=color:blue%7Clabel:S%7C"+response[i].point.x+","+response[i].point.y;
+		}
+		var $imgUrl="http://maps.googleapis.com/maps/api/staticmap?center="+$myloc.val()+"&zoom=11&size=640x640&sensor=false&"+
+		"markers=color:red%7Clabel:S%7C"+$myloc.val()+$str;
+		
+		$("#imageArea").html("<img style='-webkit-user-select: none; cursor: -webkit-zoom-in;' "+
+		"src='"+$imgUrl+"' width='500' height='500'>");
+    },
+    error: function (jqXHR, textStatus, errorThrown)
+    {
+ 
+    }
+});
+   
+  });
+});
+
+
+</script>
+</head>
+<body>
+
+<div id="div1"><h2></h2>
+Location : <input type="text" id="myLoc" />
+Distance (km) <input type="text" id="dist" />
+<br><br>
+<button id="find">find nearest</button>
+</div>
+
+<div id="imageArea">
+
+</div>
+</body>
+</html>
