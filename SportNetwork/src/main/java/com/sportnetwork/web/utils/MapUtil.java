@@ -1,4 +1,4 @@
-package utils;
+package com.sportnetwork.web.utils;
 
 
 public class MapUtil {

@@ -1,11 +1,17 @@
-package model;
+package com.sportnetwork.web.model;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
+@Document
 public class VenueItem {
+	
+	@Id
 	private String id;
+	
+	private String uniqeId;
 	private Point point;
 	private String name;
-//	private String adress;
 	
 	public String getId() {
 		return id;
@@ -24,6 +30,12 @@ public class VenueItem {
 	}
 	public void setName(String name) {
 		this.name = name;
+	}
+	public String getUniqeId() {
+		return uniqeId;
+	}
+	public void setUniqeId(String uniqeId) {
+		this.uniqeId = uniqeId;
 	}
 	
 	

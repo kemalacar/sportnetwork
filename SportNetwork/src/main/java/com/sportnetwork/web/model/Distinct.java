@@ -1,4 +1,4 @@
-package model;
+package com.sportnetwork.web.model;
 
 public class Distinct {
 

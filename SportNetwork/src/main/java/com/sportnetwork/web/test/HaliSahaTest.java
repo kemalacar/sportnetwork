@@ -1,4 +1,4 @@
-package test;
+package com.sportnetwork.web.test;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -6,17 +6,48 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
 
-import model.Point;
-import model.PointType;
-import model.VenueItem;
+import com.sportnetwork.web.model.Point;
+import com.sportnetwork.web.model.PointType;
+import com.sportnetwork.web.model.VenueItem;
 
 public class HaliSahaTest {
 
+	
+	public static ArrayList<VenueItem> getFromFile(File f){
+		try{
+
+			BufferedReader br = new BufferedReader(new FileReader(f));
+			ArrayList<VenueItem> venues= new ArrayList<VenueItem>();
+
+			try {
+				String line = br.readLine();
+
+				while (line != null) {
+					String[] array = line.split("\t");
+					VenueItem v = new VenueItem();
+					v.setUniqeId(array[0]);
+					v.setName(array[1]);
+					Point p = new Point(Double.parseDouble(array[2].split(",")[0])
+							, Double.parseDouble(array[2].split(",")[1]));
+					v.setPoint(p);
+					venues.add(v);
+					line = br.readLine();
+				}
+				return venues;
+
+			} finally {
+				br.close();
+			}
+		}catch (Exception e){
+
+		}
+		return null;
+	}
+	
+	
 	@Deprecated
 	public static ArrayList<VenueItem> getFromFile(List<Point> points, File f){
 		try{
-			
-		
 		
 		BufferedReader br = new BufferedReader(new FileReader(f));
 		ArrayList<VenueItem> venues= new ArrayList<VenueItem>();
@@ -33,7 +64,7 @@ public class HaliSahaTest {
 			while (line != null) {
 				String[] array = line.split("\t");
 				VenueItem v = new VenueItem();
-				v.setId(array[0]);
+				v.setUniqeId(array[0]);
 				v.setName(array[1]);
 				 Point p = new Point(Double.parseDouble(array[2].split(",")[0])
 						 , Double.parseDouble(array[2].split(",")[1]));

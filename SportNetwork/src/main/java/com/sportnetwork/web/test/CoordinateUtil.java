@@ -1,10 +1,10 @@
-package test;
+package com.sportnetwork.web.test;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.ArrayList;
 
-import model.Distinct;
+import com.sportnetwork.web.model.Distinct;
 
 public class CoordinateUtil {
 

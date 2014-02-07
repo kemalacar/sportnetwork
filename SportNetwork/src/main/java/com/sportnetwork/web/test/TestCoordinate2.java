@@ -1,14 +1,13 @@
-package test;
+package com.sportnetwork.web.test;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 
-import model.Distinct;
+import com.sportnetwork.web.model.Distinct;
 
 public class TestCoordinate2 {
 

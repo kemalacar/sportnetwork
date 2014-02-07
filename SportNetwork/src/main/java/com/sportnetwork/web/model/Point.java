@@ -1,4 +1,4 @@
-package model;
+package com.sportnetwork.web.model;
 
 
 
@@ -8,6 +8,10 @@ public class Point {
 	public double x ;
 	public double y;
 	
+	
+	public Point() {
+
+	}
 	
 	public Point(double x,double y,PointType type) {
 		this.x=x;
@@ -23,5 +27,27 @@ public class Point {
 	public PointType getType() {
 		return type;
 	}
+
+	public double getX() {
+		return x;
+	}
+
+	public void setX(double x) {
+		this.x = x;
+	}
+
+	public double getY() {
+		return y;
+	}
+
+	public void setY(double y) {
+		this.y = y;
+	}
+
+	public void setType(PointType type) {
+		this.type = type;
+	}
+	
+	
 	
 }
