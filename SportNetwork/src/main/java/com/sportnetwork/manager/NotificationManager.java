@@ -16,36 +16,43 @@ public class NotificationManager extends AbstractManager {
 
 	public void registerDevice(MobileDevice device){
 
-		notificationService.registerDevice(device);
+		deviceService.registerDevice(device);
 
 	}
 	
 
 	public void unRegisterDevice(String regId){
 
-		notificationService.unRegisterDevice(regId);
+		deviceService.unRegisterDevice(regId);
 
 	}
 
-	public void sendNotification(MobileDevice device, String userMessage){
+	public void sendNotification(String regId, String userMessage){
+		List<String> regIdList =  new ArrayList<>();
+		regIdList.add(regId);
+		
+		sendNotification(regId,userMessage);
+	}
+	
+	public void sendNotification(List<String> regIdList, String userMessage){
 
 		Sender sender = new Sender(Constants.SPORTNETWORK_GOOGLE_APIKEY);
 		
-		List<String> androidTargets =  new ArrayList<>();
-		for (MobileDevice md : notificationService.getRegisteredDevices()) {
-			androidTargets.add(md.getRegistrationId());
-		}
+//		List<String> androidTargets =  new ArrayList<>();
+//		for (MobileDevice md : deviceService.getRegisteredDevices()) {
+//			androidTargets.add(md.getRegistrationId());
+//		}
 
 		// If multiple messages are sent using the same .collapseKey()
 		// the android target device, if it was offline during earlier message
 		// transmissions, will only receive the latest message for that key when
 		// it goes back on-line.
-		Message message = new Message.Builder().timeToLive(30).delayWhileIdle(true).addData("price", userMessage).build();
+		Message message = new Message.Builder().timeToLive(30).delayWhileIdle(true).addData("message", userMessage).build();
 
 		try {
 			// use this for multicast messages.  The second parameter
 			// of sender.send() will need to be an array of register ids.
-			MulticastResult result = sender.send(message, androidTargets, 1);
+			MulticastResult result = sender.send(message, regIdList, 1);
 
 			if (result.getResults() != null) {
 				int canonicalRegId = result.getCanonicalIds();

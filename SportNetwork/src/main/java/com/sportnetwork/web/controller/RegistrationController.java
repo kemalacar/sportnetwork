@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.sportnetwork.common.model.MobileDevice;
+import com.sportnetwork.common.model.VenueItem;
 
 
 @Controller
@@ -31,16 +32,11 @@ public class RegistrationController extends AbstractController{
 	
 	
 	@RequestMapping(value = "notify", method = RequestMethod.GET)
-	public  void  nofity( HttpServletRequest request, HttpServletResponse response) {
+	public  void  nofity(@RequestParam String venueId, HttpServletRequest request, HttpServletResponse response) {
 		
-		notificationManager.sendNotification(
-				new MobileDevice(
-				"APA91bGX1LNUMjAIWUAlcupSUwLNY58hIyY43m_AxeKY2XEHiUDvBKgw6xpUWr3WIyKBu4loef-VVcCQN5Lj83MtubyKyo34ZXPnMtUQuLG9XZJw2kJarHC0ttU7qqZY4_vuV-AB5l8CjLII7eolsYJbkNwWoZK_UjsyJoco9NB-xQcWRqQdUjM"),
-				"naber la"
-				);
+		VenueItem venue = 	mapManager.getVenueById(venueId);
+		notificationManager.sendNotification(venue.getSubscriberList(), venue.getName()+ " ");
 		
 	}
-	
-	
 	
 }

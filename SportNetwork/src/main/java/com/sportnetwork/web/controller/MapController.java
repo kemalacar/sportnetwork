@@ -21,62 +21,79 @@ import com.sportnetwork.web.utils.MapUtil;
 @RequestMapping(value = "/map")
 public class MapController extends AbstractController {
 
-	
-	
 	@RequestMapping(value = "/addToMongo", method = RequestMethod.GET)
 	public  void  addToMongo(HttpServletRequest request, HttpServletResponse response) {
-		
+
 		ArrayList<VenueItem> venues =HaliSahaTest.getFromFile(new File( servletContext.getRealPath("/WEB-INF/resources/halisahaList") ));
-		
+
 		mapManager.refreshDB();
-		
+
 		for (VenueItem venueItem : venues) {
 			mapManager.addVenue(venueItem);
 		}
-		
+
 		createJSONResponse(response, mapManager.listVenue());
 	}
-	
-	@RequestMapping(value = "/findNearestVenues2")
-	public  void findNearestVenues2(@RequestParam String ll,int dist, HttpServletRequest request, HttpServletResponse response) {
+
+
+	@RequestMapping(value = "/subscribeVenue", method = RequestMethod.GET)
+	public  void  addSubscriberToVenue(@RequestParam String venueId,@RequestParam String deviceRegId, HttpServletRequest request, HttpServletResponse response) {
+
+		boolean added=false;
+		try{
+			mapManager.addSubscriberToVenue(venueId, deviceRegId);
+			added = true;
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 		
+		for (VenueItem item : mapManager.listVenue()) {
+			if(item.getSubscriberList().size()>0)
+				System.out.println(item.toString() );
+		}
+		createJSONResponse(response, added);
+	}
+
+	@RequestMapping(value = "/findNearestVenues")
+	public  void findNearestVenues(@RequestParam String ll,int dist, HttpServletRequest request, HttpServletResponse response) {
+
 		long times =  System.currentTimeMillis();
-		
+
 		double[] coordinates = MapUtil.getLituAndLongFromString(ll);
 		if(coordinates!=null){
 			Point p =  new Point(coordinates[0], coordinates[1]);
-			
+
 			//
 			ArrayList<VenueItem> nearetsVenues = mapManager.getNearestVenues(p, dist);
-			
+
 			//TODO client ajax
 			response.addHeader("Access-Control-Allow-Origin", "*");
 			response.addHeader("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE");
-		    response.addHeader("Access-Control-Allow-Headers", "Content-Type");
+			response.addHeader("Access-Control-Allow-Headers", "Content-Type");
 			createJSONResponse(response, nearetsVenues);
 			System.out.println(System.currentTimeMillis()-times);
 		}else{
-			
+
 			createJSONResponse(response, new String());
 		}
 	}
-	
-	@RequestMapping(value = "/findNearestVenues")
-	public  void findNearestVenues(@RequestParam String ll,int dist, 
+
+	@RequestMapping(value = "/findNearestVenues2")
+	public  void findNearestVenues2(@RequestParam String ll,int dist, 
 			HttpServletRequest request, HttpServletResponse response) {
 		long times =  System.currentTimeMillis();
-		
-		
+
+
 		double[] coordinates = MapUtil.getLituAndLongFromString(ll);
 		if(coordinates!=null){
 			Point p =  new Point(coordinates[0], coordinates[1]);
-			
+
 			List<Point> points =  MapUtil.findBoundOfLocation(p, dist);
-			
+
 			ArrayList<VenueItem> venues =HaliSahaTest.getFromFile(points, new File( servletContext.getRealPath("/WEB-INF/resources/halisahaList") ));
-			
+
 			ArrayList<VenueItem> nearetsVenues = new ArrayList<>();
-			
+
 			for (VenueItem venueItem : venues) {
 				double distt =MapUtil.getDistanceAsKM(p, venueItem.getPoint());
 
@@ -84,18 +101,18 @@ public class MapController extends AbstractController {
 					nearetsVenues.add(venueItem);
 				}
 			}
-			
+
 			//TODO client ajax
 			response.addHeader("Access-Control-Allow-Origin", "*");
 			response.addHeader("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE");
-		    response.addHeader("Access-Control-Allow-Headers", "Content-Type");
+			response.addHeader("Access-Control-Allow-Headers", "Content-Type");
 			createJSONResponse(response, nearetsVenues);
 			System.out.println(System.currentTimeMillis()-times);
 		}else{
-			
+
 			createJSONResponse(response, new String());
 		}
-		
+
 	}
-	
+
 }

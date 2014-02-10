@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
+import com.sportnetwork.common.model.MobileDevice;
 import com.sportnetwork.common.model.Point;
 import com.sportnetwork.common.model.VenueItem;
 import com.sportnetwork.common.mongoservice.IVenueService;
@@ -42,19 +43,25 @@ public class MapManager extends AbstractManager{
 		venueService.addVenue(venueItem);
 	}
 	
+	public void addSubscriberToVenue(String venueId, String deviceRegId) {
+		
+		MobileDevice md   = deviceService.getDeviceByRegistrationId(deviceRegId);
+		if(md!=null) {
+			venueService.addSubscriber(md.getRegistrationId(), venueId);
+		}
+	}
+	
 	public void deleteVenue() {
 		
 	}
 	
-	public VenueItem getVenue() {
-		return null;
+	public VenueItem getVenueById(String venueId) {
+
+		return venueService.findVenueById(venueId);
 	}
 	
-	public void updateVenue() {
-		
-	}
 
-	public Object listVenue() {
+	public List<VenueItem> listVenue() {
 		return venueService.listVenue();
 	}
 }

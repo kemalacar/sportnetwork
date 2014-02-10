@@ -21,7 +21,7 @@
 	<bean id="mapManager" class="com.sportnetwork.manager.MapManager"/>
 	<bean id="notificationManager" class="com.sportnetwork.manager.NotificationManager"/>
 	
-	<bean id="notificationService" class="com.sportnetwork.common.mongoservice.NotificationService"/>
+	<bean id="notificationService" class="com.sportnetwork.common.mongoservice.DeviceService"/>
 	<bean id="venueService" class="com.sportnetwork.common.mongoservice.VenueService"/>
 	<bean id="personService" class="com.sportnetwork.common.mongoservice.PersonService"/>
 	

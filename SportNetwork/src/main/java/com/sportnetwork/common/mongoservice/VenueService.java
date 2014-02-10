@@ -5,10 +5,13 @@ import java.util.UUID;
 
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
+import org.springframework.util.StringUtils;
 
 import com.sportnetwork.common.model.MongoModel;
 import com.sportnetwork.common.model.Point;
+import com.sportnetwork.common.model.User;
 import com.sportnetwork.common.model.VenueItem;
 import com.sportnetwork.web.utils.MapUtil;
 
@@ -55,8 +58,6 @@ public class VenueService extends MongoService implements IVenueService {
 				and("point.longitude").gt(southPoint.getLongitude()).lt(northPoint.getLongitude())
 				), VenueItem.class);
 		
-
-		
 	}
 	
 
@@ -72,7 +73,33 @@ public class VenueService extends MongoService implements IVenueService {
 	}
 	
 	public void updateVenue(VenueItem venueItem) {
-		mongoTemplate.insert(venueItem, COLLECTION_NAME);		
+		mongoTemplate.updateFirst(new Query(Criteria.where("uniqeId").is(venueItem.getUniqeId())),
+				Update.update("subscriberList", venueItem.getSubscriberList()), VenueItem.class);
+	}
+
+	@Override
+	public void addSubscriber(String subscriberId, String venueUnieqId) {
+
+		VenueItem venue = findVenueById(venueUnieqId);
+		if(venue!=null && !venue.getSubscriberList().contains(subscriberId)){
+			venue.addSubscriber(subscriberId);
+			updateVenue(venue);
+		}
+	}
+
+	@Override
+	public VenueItem findVenueById(String venueId) {
+
+		if(!StringUtils.isEmpty(venueId)){
+			
+			List<VenueItem> venue = mongoTemplate.find(
+					new Query(Criteria.where("uniqeId").is(venueId)),VenueItem.class);
+			
+			if(venue.size()==1)
+				return venue.get(0);
+		}
+		
+		return null;
 	}
 
 }

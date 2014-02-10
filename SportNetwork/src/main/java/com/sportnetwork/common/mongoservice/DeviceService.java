@@ -8,7 +8,7 @@ import org.springframework.data.mongodb.core.query.Query;
 
 import com.sportnetwork.common.model.MobileDevice;
 
-public class NotificationService extends MongoService implements INotificationService  {
+public class DeviceService extends MongoService implements IDeviceService  {
 
 	public static final String COLLECTION_NAME = "mobileDevice";
 	
@@ -40,5 +40,17 @@ public class NotificationService extends MongoService implements INotificationSe
 		return mongoTemplate.findAll(MobileDevice.class, COLLECTION_NAME);
 	}
 
+	@Override
+	public MobileDevice getDeviceByRegistrationId(String regId) {
+		List<MobileDevice>  devices =mongoTemplate.find(
+				new Query(Criteria.where("registrationId").is(regId)),MobileDevice.class);
+		
+		if(devices.size()==1){
+			return devices.get(0);
+		}
+		return null;
+	}
+
+	
 	
 }
