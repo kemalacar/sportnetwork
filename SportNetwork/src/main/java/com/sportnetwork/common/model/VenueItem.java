@@ -1,24 +1,13 @@
-package com.sportnetwork.web.model;
+package com.sportnetwork.common.model;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document
-public class VenueItem {
+public class VenueItem extends MongoModel{
 	
-	@Id
-	private String id;
 	
 	private String uniqeId;
 	private Point point;
 	private String name;
 	
-	public String getId() {
-		return id;
-	}
-	public void setId(String id) {
-		this.id = id;
-	}
 	public Point getPoint() {
 		return point;
 	}

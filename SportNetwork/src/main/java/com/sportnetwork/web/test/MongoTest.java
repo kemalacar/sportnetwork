@@ -6,8 +6,8 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sportnetwork.web.model.Point;
-import com.sportnetwork.web.model.VenueItem;
+import com.sportnetwork.common.model.Point;
+import com.sportnetwork.common.model.VenueItem;
 
 public class MongoTest {
 

@@ -7,7 +7,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.ArrayList;
 
-import com.sportnetwork.web.model.Distinct;
+import com.sportnetwork.common.model.Distinct;
 
 public class TestCoordinate2 {
 

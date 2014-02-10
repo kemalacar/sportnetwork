@@ -4,7 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.ArrayList;
 
-import com.sportnetwork.web.model.Distinct;
+import com.sportnetwork.common.model.Distinct;
 
 public class CoordinateUtil {
 

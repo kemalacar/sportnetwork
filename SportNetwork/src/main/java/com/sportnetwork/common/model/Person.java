@@ -1,4 +1,4 @@
-package com.sportnetwork.web.model;
+package com.sportnetwork.common.model;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;

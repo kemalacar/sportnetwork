@@ -10,13 +10,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.view.RedirectView;
 
-import com.sportnetwork.web.model.Person;
-import com.sportnetwork.web.service.PersonService;
+import com.sportnetwork.common.model.Person;
+import com.sportnetwork.common.mongoservice.PersonService;
    
 @Controller    
 public class PersonController {  
    
-	@Autowired
 	private PersonService personService;
 	
     @RequestMapping(value = "/person", method = RequestMethod.GET)  

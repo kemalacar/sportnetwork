@@ -6,9 +6,9 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sportnetwork.web.model.Point;
-import com.sportnetwork.web.model.PointType;
-import com.sportnetwork.web.model.VenueItem;
+import com.sportnetwork.common.model.Point;
+import com.sportnetwork.common.model.PointType;
+import com.sportnetwork.common.model.VenueItem;
 
 public class HaliSahaTest {
 
@@ -71,7 +71,8 @@ public class HaliSahaTest {
 				v.setPoint(p);
 				
 				
-				if(p.x > westPoint.x && p.x < eastPoint.x  && p.y > southPoint.y && p.y < northPoint.y )
+				if(p.getLatitude() > westPoint.getLatitude() && p.getLatitude() < eastPoint.getLatitude()  
+						&& p.getLongitude() > southPoint.getLongitude() && p.getLongitude() < northPoint.getLongitude() )
 				{
 					venues.add(v);
 				}
@@ -108,15 +109,15 @@ public class HaliSahaTest {
 			double dist = distance(p1, venueItem.getPoint(), 'K');
 
 			if(dist < 5 ){
-				System.out.print(template+venueItem.getPoint().x+","+venueItem.getPoint().y);
+				System.out.print(template+venueItem.getPoint().getLatitude()+","+venueItem.getPoint().getLongitude());
 			}
 		}
 		
-		System.out.print("&markers=color:red%7Clabel:F%7C"+p1.x+","+p1.y);
-		System.out.print("&center="+p1.x+","+p1.y);
+		System.out.print("&markers=color:red%7Clabel:F%7C"+p1.getLatitude()+","+p1.getLongitude());
+		System.out.print("&center="+p1.getLatitude()+","+p1.getLongitude());
 		
 		for (int i = 0; i < 4; i++) {
-			System.out.print("&markers=color:red%7Clabel:F%7C"+points.get(i).x+","+points.get(i).y);
+			System.out.print("&markers=color:red%7Clabel:F%7C"+points.get(i).getLatitude()+","+points.get(i).getLongitude());
 		}
 		
 //		double distance=0 ;
@@ -132,8 +133,9 @@ public class HaliSahaTest {
 	
 	public static final double distance(Point p1, Point p2, char unit)
 	{
-	    double theta = p1.y - p2.y;
-	    double dist = Math.sin(deg2rad(p1.x)) * Math.sin(deg2rad(p2.x)) + Math.cos(deg2rad(p1.x)) * Math.cos(deg2rad(p2.x)) * Math.cos(deg2rad(theta));
+	    double theta = p1.getLongitude() - p2.getLongitude();
+	    double dist = Math.sin(deg2rad(p1.getLatitude())) * Math.sin(deg2rad(p2.getLatitude())) + 
+	    		Math.cos(deg2rad(p1.getLatitude())) * Math.cos(deg2rad(p2.getLatitude())) * Math.cos(deg2rad(theta));
 	    dist = Math.acos(dist);
 	    dist = rad2deg(dist);
 	    dist = dist * 60 * 1.1515;
@@ -181,29 +183,29 @@ public class HaliSahaTest {
 	public static List<Point> findBoundOfLocation(Point loc, int distance){
 		ArrayList<Point> points= new ArrayList<Point>();
 		Point eastPoint,westPoint,northPoint,southPoint,northeastPoint,northwestPoint,southeastPoint,southwestPoint;
-		
-		
-		Point p2=new Point(loc.x, loc.y);
-		
-		p2.x+=0.009*distance;
-		
-		eastPoint =  new Point(loc.x+0.009*distance, loc.y, PointType.EAST);
-		westPoint =  new Point(loc.x-0.009*distance, loc.y, PointType.WEST);
-		northPoint =  new Point(loc.x, loc.y+0.01*distance, PointType.NORTH);
-		southPoint =  new Point(loc.x, loc.y-0.01*distance, PointType.SOUTH);
-		
+
+
+		Point p2=new Point(loc.getLatitude(), loc.getLongitude());
+
+		p2.setLatitude(p2.getLatitude()+0.009*distance);
+
+		eastPoint =  new Point(loc.getLatitude()+0.009*distance, loc.getLongitude(), PointType.EAST);
+		westPoint =  new Point(loc.getLatitude()-0.009*distance, loc.getLongitude(), PointType.WEST);
+		northPoint =  new Point(loc.getLatitude(), loc.getLongitude()+0.01*distance, PointType.NORTH);
+		southPoint =  new Point(loc.getLatitude(), loc.getLongitude()-0.01*distance, PointType.SOUTH);
+
 		//find cross points
-		p2.x= loc.x;
-		p2.y=loc.y;
-		
+		p2.setLatitude(loc.getLatitude());
+		p2.setLongitude(loc.getLongitude());
+
 		double crossDistx=Math.sqrt((double) Math.pow(distance, 2)/2)*0.009;
 		double crossDisty=Math.sqrt((double)Math.pow(distance, 2)/2)*0.01;
-		
-		northeastPoint =  new Point(loc.x+crossDistx, loc.y+crossDisty, PointType.NORTHEAST);
-		northwestPoint =  new Point(loc.x-crossDistx, loc.y+crossDisty, PointType.NORTHWEST);
-		southwestPoint =  new Point(loc.x-crossDistx, loc.y-crossDisty, PointType.SOUTHWEST);
-		southeastPoint =  new Point(loc.x+crossDistx, loc.y-crossDisty, PointType.SOUTHEAST);
-		
+
+		northeastPoint =  new Point(loc.getLatitude()+crossDistx, loc.getLongitude()+crossDisty, PointType.NORTHEAST);
+		northwestPoint =  new Point(loc.getLatitude()-crossDistx, loc.getLongitude()+crossDisty, PointType.NORTHWEST);
+		southwestPoint =  new Point(loc.getLatitude()-crossDistx, loc.getLongitude()-crossDisty, PointType.SOUTHWEST);
+		southeastPoint =  new Point(loc.getLatitude()+crossDistx, loc.getLongitude()-crossDisty, PointType.SOUTHEAST);
+
 		points.add(eastPoint);
 		points.add(westPoint);
 		points.add(northPoint);
@@ -212,7 +214,7 @@ public class HaliSahaTest {
 		points.add(northwestPoint);
 		points.add(southeastPoint);
 		points.add(southwestPoint);
-		
+
 		return points;
 	}
 	

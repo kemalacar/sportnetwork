@@ -1,4 +1,4 @@
-package com.sportnetwork.web.model;
+package com.sportnetwork.common.model;
 
 public class Venue {
 	@Override
