@@ -55,6 +55,10 @@ public class VenueItem extends MongoModel{
 	public void addSubscriber(String suscriberId){
 		subscriberList.add(suscriberId);
 	}
+	
+	public void removeSubscriber(String suscriberId){
+		subscriberList.remove(suscriberId);
+	}
 
 	@Override
 	public String toString() {

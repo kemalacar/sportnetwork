@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import com.sportnetwork.common.model.MobileDevice;
 import com.sportnetwork.common.model.Point;
 import com.sportnetwork.common.model.VenueItem;
-import com.sportnetwork.common.mongoservice.IVenueService;
+import com.sportnetwork.common.service.IVenueService;
 import com.sportnetwork.web.utils.MapUtil;
 
 @Service
@@ -51,6 +51,14 @@ public class MapManager extends AbstractManager{
 		}
 	}
 	
+	public void removeSubscriberFromVenue(String venueId, String deviceRegId) {
+		
+		MobileDevice md   = deviceService.getDeviceByRegistrationId(deviceRegId);
+		if(md!=null) {
+			venueService.removeSubscriber(md.getRegistrationId(), venueId);
+		}
+	}
+
 	public void deleteVenue() {
 		
 	}

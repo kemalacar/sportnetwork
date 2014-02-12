@@ -1,4 +1,4 @@
-package com.sportnetwork.common.mongoservice;
+package com.sportnetwork.common.service.impl;
 
 import java.util.List;
 import java.util.UUID;

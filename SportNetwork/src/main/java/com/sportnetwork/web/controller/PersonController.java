@@ -11,7 +11,7 @@ import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.view.RedirectView;
 
 import com.sportnetwork.common.model.Person;
-import com.sportnetwork.common.mongoservice.PersonService;
+import com.sportnetwork.common.service.impl.PersonService;
    
 @Controller    
 public class PersonController {  

@@ -1,4 +1,4 @@
-package com.sportnetwork.common.mongoservice;
+package com.sportnetwork.common.service.impl;
 
 import java.util.List;
 import java.util.UUID;
@@ -7,11 +7,11 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 
 import com.sportnetwork.common.model.MobileDevice;
+import com.sportnetwork.common.service.IDeviceService;
 
 public class DeviceService extends MongoService implements IDeviceService  {
 
 	public static final String COLLECTION_NAME = "mobileDevice";
-	
 	
 	@Deprecated
 	public void refreshColection() {
@@ -26,10 +26,9 @@ public class DeviceService extends MongoService implements IDeviceService  {
 	
 	@Override
 	public void registerDevice(MobileDevice device) {
-		device.setId(UUID.randomUUID().toString());
-		mongoTemplate.insert(device, COLLECTION_NAME);
+		add(device);
 	}
-
+	
 	@Override
 	public void unRegisterDevice(String regId) {
 		mongoTemplate.remove(new Query(Criteria.where("registrationId").is(regId)),MobileDevice.class);		
@@ -50,7 +49,10 @@ public class DeviceService extends MongoService implements IDeviceService  {
 		}
 		return null;
 	}
+	
+	@Override
+	public String getTemplateName() {
+		return COLLECTION_NAME;
+	}
 
-	
-	
 }

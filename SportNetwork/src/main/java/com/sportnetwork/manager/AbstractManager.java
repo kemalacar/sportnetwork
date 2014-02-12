@@ -3,8 +3,9 @@ package com.sportnetwork.manager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.sportnetwork.common.mongoservice.IDeviceService;
-import com.sportnetwork.common.mongoservice.IVenueService;
+import com.sportnetwork.common.service.IDeviceService;
+import com.sportnetwork.common.service.IEventService;
+import com.sportnetwork.common.service.IVenueService;
 
 @Service
 public class AbstractManager {
@@ -14,5 +15,8 @@ public class AbstractManager {
 	
 	@Autowired
 	protected IDeviceService deviceService;
+	
+	@Autowired
+	protected IEventService eventService;
 	
 }

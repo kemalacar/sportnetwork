@@ -11,6 +11,7 @@ import org.springframework.http.converter.HttpMessageNotWritableException;
 import org.springframework.http.converter.json.MappingJacksonHttpMessageConverter;
 import org.springframework.http.server.ServletServerHttpResponse;
 
+import com.sportnetwork.manager.EventManager;
 import com.sportnetwork.manager.MapManager;
 import com.sportnetwork.manager.NotificationManager;
 
@@ -21,6 +22,9 @@ public class AbstractController {
 	
 	@Autowired
 	NotificationManager notificationManager;
+	
+	@Autowired
+	EventManager eventManager;
 	
 	@Autowired
 	ServletContext servletContext;

@@ -20,10 +20,12 @@
 	
 	<bean id="mapManager" class="com.sportnetwork.manager.MapManager"/>
 	<bean id="notificationManager" class="com.sportnetwork.manager.NotificationManager"/>
+	<bean id="eventManager" class="com.sportnetwork.manager.EventManager"/>
 	
-	<bean id="notificationService" class="com.sportnetwork.common.mongoservice.DeviceService"/>
-	<bean id="venueService" class="com.sportnetwork.common.mongoservice.VenueService"/>
-	<bean id="personService" class="com.sportnetwork.common.mongoservice.PersonService"/>
+	<bean id="deviceService" class="com.sportnetwork.common.service.impl.DeviceService"/>
+	<bean id="venueService" class="com.sportnetwork.common.service.impl.VenueService"/>
+	<bean id="personService" class="com.sportnetwork.common.service.impl.PersonService"/>
+	<bean id="eventService" class="com.sportnetwork.common.service.impl.EventService"/>
 	
 	<!-- MongoTemplate for connecting and quering the documents in the database -->
 	<bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">

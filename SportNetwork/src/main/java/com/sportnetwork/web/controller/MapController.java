@@ -36,6 +36,25 @@ public class MapController extends AbstractController {
 	}
 
 
+	@RequestMapping(value = "/unSubscribeVenue", method = RequestMethod.GET)
+	public  void  removeSubscriberFromVenue(@RequestParam String venueId,@RequestParam String deviceRegId, HttpServletRequest request, HttpServletResponse response) {
+
+		boolean added=false;
+		try{
+			mapManager.removeSubscriberFromVenue(venueId, deviceRegId);
+			added = true;
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
+		for (VenueItem item : mapManager.listVenue()) {
+			if(item.getSubscriberList().size()>0)
+				System.out.println(item.toString() );
+		}
+		
+		createJSONResponse(response, added);
+	}
+	
 	@RequestMapping(value = "/subscribeVenue", method = RequestMethod.GET)
 	public  void  addSubscriberToVenue(@RequestParam String venueId,@RequestParam String deviceRegId, HttpServletRequest request, HttpServletResponse response) {
 
@@ -55,7 +74,7 @@ public class MapController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/findNearestVenues")
-	public  void findNearestVenues(@RequestParam String ll,int dist, HttpServletRequest request, HttpServletResponse response) {
+	public  void findNearestVenues(@RequestParam String ll,int dist,String regId,  HttpServletRequest request, HttpServletResponse response) {
 
 		long times =  System.currentTimeMillis();
 
@@ -65,7 +84,18 @@ public class MapController extends AbstractController {
 
 			//
 			ArrayList<VenueItem> nearetsVenues = mapManager.getNearestVenues(p, dist);
-
+			
+			
+			//TODO optimize edilecek
+			for (VenueItem venueItem : nearetsVenues) {
+				if(venueItem.getSubscriberList().contains(regId)){
+					venueItem.setSubscriberList(new ArrayList<String>());
+					venueItem.addSubscriber(regId);
+				}else{
+					venueItem.setSubscriberList(new ArrayList<String>());
+				}
+			}
+			
 			//TODO client ajax
 			response.addHeader("Access-Control-Allow-Origin", "*");
 			response.addHeader("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE");
